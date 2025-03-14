@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ConsoleOrderExecutor.csproj" />
+    <ProjectReference Include="..\ConsolOrderExecutor\ConsoleOrderExecutor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -423,5 +423,202 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.Contains("Error: Could not find status with the name W wysyłce", strWriter.ToString());
             Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
         }
+
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToWMagazynie_WriteSuccessMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(2);
+            A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(true);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains($"Order status with id {orderIdOut} has been changed to W magazynie.", strWriter.ToString());
+            Assert.DoesNotContain($"Error:", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToReturned_WriteSuccessMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 2600m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("Zwrócono do klienta")).Returns(2);
+            A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(true);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            A.CallTo(() => _orderService.GetStatusId("Zwrócono do klienta")).MustHaveHappened();
+            Assert.Contains("Waring: The order have payment option set as Gotówka przy odbiorze and it value exceed 2500. The status will be changed to Zwrócono do klienta.", strWriter.ToString());
+            Assert.Contains($"Order status with id {orderIdOut} has been changed to Zwrócono do klienta.", strWriter.ToString());
+            Assert.DoesNotContain($"Error:", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_OrderDoNotExist_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(false);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains($"Error: The order with id {orderIdOut} do not exist in database.", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed", strWriter.ToString());
+            Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_PaymentOptionCashDoNotExist_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(0);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains("Error: Could not find payment status with the name Gotówka przy odbiorze", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed", strWriter.ToString());
+            Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_StatusNewNotFound_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(0);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains("Error: Could not find status with the name Nowe", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed", strWriter.ToString());
+            Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_OrderHasDifferentStatusThenNew_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(2);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains("Error: Cannot change given order status, because the order status is not Nowe.", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed", strWriter.ToString());
+            Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_NewOrderStatusDoNotExist_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(0);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains("Error: Could not find status with the name W magazynie", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed", strWriter.ToString());
+            Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_PassOrderToWarehouse_CouldNotChangeStatus_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to move to warehouse.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            decimal orderValue = 20.5m;
+            A.CallTo(() => _orderService.GetOrderValue(A<int>.Ignored)).Returns(orderValue);
+            A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(2);
+            A.CallTo(() => _orderService.GetOrderPaymentOptionId(A<int>.Ignored)).Returns(2);
+            A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(2);
+            A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(false);
+
+            //Act
+            consoleFunctions.PassOrderToWarehouse();
+
+            //Assert
+            Assert.Contains($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
+            Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed to W magazynie.", strWriter.ToString());
+        }
     }
 }

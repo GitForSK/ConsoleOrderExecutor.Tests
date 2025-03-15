@@ -237,5 +237,92 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("Error: Found null product.", strWriter.ToString());
             Assert.DoesNotContain("End of products.", strWriter.ToString());
         }
+        [Fact]
+        public void ConsoleFunctions_ShowOrders_OrderCountLessThan5_OrdersShown()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            var orders = new List<GetOrder> {
+                new()
+                {
+                    Id = 1,
+                    OrderValue = 20.5m,
+                    Products =
+                    [
+                        new GetOrderProduct()
+                        {
+                            Id = 1,
+                            Name = "name",
+                            Ean = "123",
+                            Price = 20.5m
+                        }
+                    ],
+                    OrderType = "Company",
+                    DeliveryAddress = "address",
+                    StatusName = "Nowe",
+                    PaymentOption = "Karta"
+                }
+            };
+            A.CallTo(() => _orderService.GetOrders()).Returns(orders);
+            var order = orders[0];
+            var consoleOrderResult =
+                $"id: {order.Id} value: {order.OrderValue} PLN status: {order.StatusName} payment option: {order.PaymentOption}" + Environment.NewLine +
+                $"type: {order.OrderType} address: {order.DeliveryAddress}" + Environment.NewLine +
+                "Products:";
+            var prod = order.Products.Select(x => $"id: {x.Id} ean: {x.Ean} name: {x.Name} price: {x.Price}");
+            var consoleProdResult = String.Join("\\n", prod);
+
+            //Act
+            consoleFunctions.ShowOrders();
+
+            //Assert
+            Assert.Contains(consoleOrderResult, strWriter.ToString());
+            Assert.Contains(consoleProdResult, strWriter.ToString());
+            Assert.DoesNotContain("Error: Found null order.", strWriter.ToString());
+            Assert.DoesNotContain("If you want to exit write exit. If you want to see more click enter or write anything.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_OrdersShown()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            var strReader = new StringReader(Environment.NewLine);
+            Console.SetIn(strReader);
+            var orders = A.CollectionOfFake<GetOrder>(6);
+            A.CallTo(() => _orderService.GetOrders()).Returns(orders);
+            var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
+
+            //Act
+            consoleFunctions.ShowOrders();
+
+            //Assert
+            Assert.Contains(consoleResult, strWriter.ToString());
+            Assert.DoesNotContain("Error: Found null order.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_UserExited_OrdersShown()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            var strReader = new StringReader("exit");
+            Console.SetIn(strReader);
+            var orders = A.CollectionOfFake<GetOrder>(6);
+            A.CallTo(() => _orderService.GetOrders()).Returns(orders);
+            var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
+
+            //Act
+            consoleFunctions.ShowOrders();
+
+            //Assert
+            Assert.Contains(consoleResult, strWriter.ToString());
+            Assert.DoesNotContain("Error: Found null order.", strWriter.ToString());
+            Assert.DoesNotContain("End of orders.", strWriter.ToString());
+        }
     }
 }

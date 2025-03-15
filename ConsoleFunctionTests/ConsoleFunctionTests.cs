@@ -194,7 +194,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
             Assert.DoesNotContain("Error: Found null product.", strWriter.ToString());
-            Assert.DoesNotContain("If you want to exit write exit. If you want to see click enter or write anything.", strWriter.ToString());
+            Assert.DoesNotContain("If you want to exit write exit. If you want to see more click enter or write anything.", strWriter.ToString());
         }
         [Fact]
         public void ConsoleFunctions_ShowProducts_ProductCountGreaterThan5_ProductShown()
@@ -207,7 +207,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Console.SetIn(strReader);
             var products = A.CollectionOfFake<GetProduct>(6);
             A.CallTo(() => _productService.GetProducts()).Returns(products);
-            var consoleResult = "If you want to exit write exit. If you want to see click enter or write anything.";
+            var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
             consoleFunctions.ShowProducts();
@@ -227,7 +227,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Console.SetIn(strReader);
             var products = A.CollectionOfFake<GetProduct>(6);
             A.CallTo(() => _productService.GetProducts()).Returns(products);
-            var consoleResult = "If you want to exit write exit. If you want to see click enter or write anything.";
+            var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
             consoleFunctions.ShowProducts();

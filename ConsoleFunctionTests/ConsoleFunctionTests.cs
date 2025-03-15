@@ -324,5 +324,104 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("Error: Found null order.", strWriter.ToString());
             Assert.DoesNotContain("End of orders.", strWriter.ToString());
         }
+        [Fact]
+        public void ConsoleFunctions_SendOrder_SuccessfullyCreatedThread_WriteSuccessMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to send.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("W wysyłce")).Returns(2);
+
+            //Act
+            consoleFunctions.SendOrder();
+
+            //Assert
+            Assert.DoesNotContain("Error:", strWriter.ToString());
+            Assert.Contains($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_SendOrder_OrderDoNotExist_WriteError()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to send.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(false);
+
+            //Act
+            consoleFunctions.SendOrder();
+
+            //Assert
+            Assert.Contains($"Error: The order with id {orderIdOut} do not exist in database.", strWriter.ToString());
+            Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_SendOrder_StatusWarehouseDoNotExist_WriteError()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to send.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(0);
+
+            //Act
+            consoleFunctions.SendOrder();
+
+            //Assert
+            Assert.Contains("Error: Could not find status with the name W magazynie", strWriter.ToString());
+            Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_SendOrder_OrderHaveDifferentStatusThenWarehouse_WriteError()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to send.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(3);
+
+            //Act
+            consoleFunctions.SendOrder();
+
+            //Assert
+            Assert.Contains("Error: Cannot change given order status, because the order status is not W magazynie.", strWriter.ToString());
+            Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_SendOrder_StatusSendDONotExist_WriteError()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? orderIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the order that you want to send.", A<Predicate<string?>>.Ignored, out orderIdOut)).Returns(false);
+            A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(true);
+            A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(1);
+            A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(1);
+            A.CallTo(() => _orderService.GetStatusId("W wysyłce")).Returns(0);
+
+            //Act
+            consoleFunctions.SendOrder();
+
+            //Assert
+            Assert.Contains("Error: Could not find status with the name W wysyłce", strWriter.ToString());
+            Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
+        }
     }
 }

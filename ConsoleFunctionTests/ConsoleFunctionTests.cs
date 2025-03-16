@@ -28,7 +28,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var strWriter = new StringWriter();
             Console.SetOut(strWriter);
             string? companyOut = "1";
-            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if yes or 0 if false.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if company or 0 if person.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
             string? addressOut = "address";
             A.CallTo(() => _consoleUtils.GetParameter("Please write delivery address (max 250 characters).", A<Predicate<string?>>.Ignored, out addressOut)).Returns(false);
             var paymentList = new List<GetPaymentOption>() {
@@ -40,7 +40,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var paymentInfoInString = paymentList.Select(x => x.Id + " - " + x.Name);
             A.CallTo(() => _orderService.GetPaymentOptions()).Returns(paymentList);
             string? paymentOut = "2";
-            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\\n" + String.Join("\\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\n" + String.Join("\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
             string? eanOut = "2342343";
             A.CallTo(() => _consoleUtils.GetParameter("Please write ean of product you want to add.", A<Predicate<string?>>.Ignored, out eanOut)).Returns(false);
             A.CallTo(() => _productService.ProductExist(A<string>.Ignored)).Returns(true);
@@ -65,7 +65,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var strWriter = new StringWriter();
             Console.SetOut(strWriter);
             string? companyOut = "1";
-            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if yes or 0 if false.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if company or 0 if person.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
             string? addressOut = "address";
             A.CallTo(() => _consoleUtils.GetParameter("Please write delivery address (max 250 characters).", A<Predicate<string?>>.Ignored, out addressOut)).Returns(false);
             var paymentList = new List<GetPaymentOption>() {
@@ -77,7 +77,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var paymentInfoInString = paymentList.Select(x => x.Id + " - " + x.Name);
             A.CallTo(() => _orderService.GetPaymentOptions()).Returns(paymentList);
             string? paymentOut = "2";
-            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\\n" + String.Join("\\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\n" + String.Join("\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
             string? eanOut = "2342343";
             A.CallTo(() => _consoleUtils.GetParameter("Please write ean of product you want to add.", A<Predicate<string?>>.Ignored, out eanOut)).Returns(false);
             A.CallTo(() => _productService.ProductExist(A<string>.Ignored)).Returns(true);
@@ -102,7 +102,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var strWriter = new StringWriter();
             Console.SetOut(strWriter);
             string? companyOut = "1";
-            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if yes or 0 if false.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if company or 0 if person.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
             string? addressOut = "address";
             A.CallTo(() => _consoleUtils.GetParameter("Please write delivery address (max 250 characters).", A<Predicate<string?>>.Ignored, out addressOut)).Returns(false);
             var paymentList = new List<GetPaymentOption>() {
@@ -114,7 +114,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var paymentInfoInString = paymentList.Select(x => x.Id + " - " + x.Name);
             A.CallTo(() => _orderService.GetPaymentOptions()).Returns(paymentList);
             string? paymentOut = "2";
-            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\\n" + String.Join("\\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\n" + String.Join("\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
             string? eanOut = "2342343";
             A.CallTo(() => _consoleUtils.GetParameter("Please write ean of product you want to add.", A<Predicate<string?>>.Ignored, out eanOut)).Returns(false);
             A.CallTo(() => _productService.ProductExist(A<string>.Ignored)).Returns(false);
@@ -139,7 +139,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var strWriter = new StringWriter();
             Console.SetOut(strWriter);
             string? companyOut = "1";
-            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if yes or 0 if false.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Is this order for company or physical person? Type 1 if company or 0 if person.", A<Predicate<string?>>.Ignored, out companyOut)).Returns(false);
             string? addressOut = "address";
             A.CallTo(() => _consoleUtils.GetParameter("Please write delivery address (max 250 characters).", A<Predicate<string?>>.Ignored, out addressOut)).Returns(false);
             var paymentList = new List<GetPaymentOption>() {
@@ -151,7 +151,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var paymentInfoInString = paymentList.Select(x => x.Id + " - " + x.Name);
             A.CallTo(() => _orderService.GetPaymentOptions()).Returns(paymentList);
             string? paymentOut = "2";
-            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\\n" + String.Join("\\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
+            A.CallTo(() => _consoleUtils.GetParameter("Please choose the payment option, by writing its number.\n" + String.Join("\n", paymentInfoInString), A<Predicate<string?>>.Ignored, out paymentOut)).Returns(false);
             string? eanOut = "2342343";
             A.CallTo(() => _consoleUtils.GetParameter("Please write ean of product you want to add.", A<Predicate<string?>>.Ignored, out eanOut)).Returns(false);
             A.CallTo(() => _productService.ProductExist(A<string>.Ignored)).Returns(false);
@@ -170,7 +170,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("Product added.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowProducts_ProductCountLessThan5_ProductShown()
+        public async Task ConsoleFunctions_ShowProducts_ProductCountLessThan5_ProductShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -189,7 +189,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var consoleResult = $"id: {product.Id} ean: {product.Ean} name: {product.Name}";
 
             //Act
-            consoleFunctions.ShowProducts();
+            await consoleFunctions.ShowProducts();
 
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
@@ -197,7 +197,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("If you want to exit write exit. If you want to see more click enter or write anything.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowProducts_ProductCountGreaterThan5_ProductShown()
+        public async Task ConsoleFunctions_ShowProducts_ProductCountGreaterThan5_ProductShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -210,14 +210,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
-            consoleFunctions.ShowProducts();
+            await consoleFunctions.ShowProducts();
 
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
             Assert.DoesNotContain("Error: Found null product.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowProducts_ProductCountGreaterThan5_UserExited_ProductShown()
+        public async Task ConsoleFunctions_ShowProducts_ProductCountGreaterThan5_UserExited_ProductShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -230,7 +230,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
-            consoleFunctions.ShowProducts();
+            await consoleFunctions.ShowProducts();
 
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
@@ -238,7 +238,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("End of products.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowOrders_OrderCountLessThan5_OrdersShown()
+        public async Task ConsoleFunctions_ShowOrders_OrderCountLessThan5_OrdersShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -272,10 +272,10 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
                 $"type: {order.OrderType} address: {order.DeliveryAddress}" + Environment.NewLine +
                 "Products:";
             var prod = order.Products.Select(x => $"id: {x.Id} ean: {x.Ean} name: {x.Name} price: {x.Price}");
-            var consoleProdResult = String.Join("\\n", prod);
+            var consoleProdResult = String.Join("\n", prod);
 
             //Act
-            consoleFunctions.ShowOrders();
+            await consoleFunctions.ShowOrders();
 
             //Assert
             Assert.Contains(consoleOrderResult, strWriter.ToString());
@@ -284,7 +284,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("If you want to exit write exit. If you want to see more click enter or write anything.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_OrdersShown()
+        public async Task ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_OrdersShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -297,14 +297,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
-            consoleFunctions.ShowOrders();
+            await consoleFunctions.ShowOrders();
 
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
             Assert.DoesNotContain("Error: Found null order.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_UserExited_OrdersShown()
+        public async Task ConsoleFunctions_ShowOrders_OrderCountGreaterThan5_UserExited_OrdersShown()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -317,7 +317,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             var consoleResult = "If you want to exit write exit. If you want to see more click enter or write anything.";
 
             //Act
-            consoleFunctions.ShowOrders();
+            await consoleFunctions.ShowOrders();
 
             //Assert
             Assert.Contains(consoleResult, strWriter.ToString());
@@ -325,7 +325,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("End of orders.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_SendOrder_SuccessfullyCreatedThread_WriteSuccessMessage()
+        public async Task ConsoleFunctions_SendOrder_SuccessfullyCreatedThread_WriteSuccessMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -339,14 +339,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("W wysyłce")).Returns(2);
 
             //Act
-            consoleFunctions.SendOrder();
+            await consoleFunctions.SendOrder();
 
             //Assert
             Assert.DoesNotContain("Error:", strWriter.ToString());
             Assert.Contains($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_SendOrder_OrderDoNotExist_WriteError()
+        public async Task ConsoleFunctions_SendOrder_OrderDoNotExist_WriteError()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -357,14 +357,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.SendOrder();
+            await consoleFunctions.SendOrder();
 
             //Assert
             Assert.Contains($"Error: The order with id {orderIdOut} do not exist in database.", strWriter.ToString());
             Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_SendOrder_StatusWarehouseDoNotExist_WriteError()
+        public async Task ConsoleFunctions_SendOrder_StatusWarehouseDoNotExist_WriteError()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -376,14 +376,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(0);
 
             //Act
-            consoleFunctions.SendOrder();
+            await consoleFunctions.SendOrder();
 
             //Assert
             Assert.Contains("Error: Could not find status with the name W magazynie", strWriter.ToString());
             Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_SendOrder_OrderHaveDifferentStatusThenWarehouse_WriteError()
+        public async Task ConsoleFunctions_SendOrder_OrderHaveDifferentStatusThenWarehouse_WriteError()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -396,14 +396,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(3);
 
             //Act
-            consoleFunctions.SendOrder();
+            await consoleFunctions.SendOrder();
 
             //Assert
             Assert.Contains("Error: Cannot change given order status, because the order status is not W magazynie.", strWriter.ToString());
             Assert.DoesNotContain($"The order has been sent for shipment. Please check later if status of order {orderIdOut} has been changed.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_SendOrder_StatusSendDONotExist_WriteError()
+        public async Task ConsoleFunctions_SendOrder_StatusSendDONotExist_WriteError()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -417,7 +417,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("W wysyłce")).Returns(0);
 
             //Act
-            consoleFunctions.SendOrder();
+            await consoleFunctions.SendOrder();
 
             //Assert
             Assert.Contains("Error: Could not find status with the name W wysyłce", strWriter.ToString());
@@ -425,7 +425,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
         }
 
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToWMagazynie_WriteSuccessMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToWMagazynie_WriteSuccessMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -444,14 +444,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(true);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains($"Order status with id {orderIdOut} has been changed to W magazynie.", strWriter.ToString());
             Assert.DoesNotContain($"Error:", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToReturned_WriteSuccessMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_ChangedStatusToReturned_WriteSuccessMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -470,7 +470,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(true);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             A.CallTo(() => _orderService.GetStatusId("Zwrócono do klienta")).MustHaveHappened();
@@ -479,7 +479,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error:", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_OrderDoNotExist_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_OrderDoNotExist_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -490,7 +490,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.OrderExist(A<int>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains($"Error: The order with id {orderIdOut} do not exist in database.", strWriter.ToString());
@@ -498,7 +498,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_PaymentOptionCashDoNotExist_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_PaymentOptionCashDoNotExist_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -512,7 +512,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(0);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await  consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Could not find payment status with the name Gotówka przy odbiorze", strWriter.ToString());
@@ -520,7 +520,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_StatusNewNotFound_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_StatusNewNotFound_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -536,7 +536,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("Nowe")).Returns(0);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Could not find status with the name Nowe", strWriter.ToString());
@@ -544,7 +544,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_OrderHasDifferentStatusThenNew_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_OrderHasDifferentStatusThenNew_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -561,7 +561,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(2);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await  consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Cannot change given order status, because the order status is not Nowe.", strWriter.ToString());
@@ -569,7 +569,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_NewOrderStatusDoNotExist_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_NewOrderStatusDoNotExist_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -587,7 +587,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(0);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await  consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Could not find status with the name W magazynie", strWriter.ToString());
@@ -595,7 +595,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_PassOrderToWarehouse_CouldNotChangeStatus_WriteErrorMessage()
+        public async Task ConsoleFunctions_PassOrderToWarehouse_CouldNotChangeStatus_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -614,14 +614,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.ModifyOrder(A<ModifyOrder>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
             Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed to W magazynie.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ModifyProduct_SuccessfullyChanged_WriteSuccessMessage()
+        public async Task ConsoleFunctions_ModifyProduct_SuccessfullyChanged_WriteSuccessMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -644,14 +644,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.ModifyProduct(A<ModifyProduct>.Ignored)).Returns(true);
 
             //Act
-            consoleFunctions.ModifyProduct();
+            await consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.Contains($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
             Assert.DoesNotContain("Error:", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ModifyProduct_ProductDoNotExist_WriteErrorMessage()
+        public async Task ConsoleFunctions_ModifyProduct_ProductDoNotExist_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -662,14 +662,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.ModifyProduct();
+            await consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.Contains($"Error: The product with id {productIdOut} do not exists.", strWriter.ToString());
             Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ModifyProduct_CouldNotFindProductInfo_WriteErrorMessage()
+        public async Task ConsoleFunctions_ModifyProduct_CouldNotFindProductInfo_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -682,14 +682,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.GetProductInfo(A<int>.Ignored)).Returns(productInfo);
 
             //Act
-            consoleFunctions.ModifyProduct();
+            await consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.Contains("Error: Could not find product information form database.", strWriter.ToString());
             Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ModifyProduct_NewEanAlreadyExist_WriteErrorMessage()
+        public async Task ConsoleFunctions_ModifyProduct_NewEanAlreadyExist_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -711,14 +711,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.ProductExist(newEan)).Returns(true);
 
             //Act
-            consoleFunctions.ModifyProduct();
+            await  consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.Contains("Error: Product with this ean already exist.", strWriter.ToString());
             Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_ModifyProduct_FailsToChange_WriteErrorMessage()
+        public async Task ConsoleFunctions_ModifyProduct_FailsToChange_WriteErrorMessage()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -741,7 +741,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.ModifyProduct(A<ModifyProduct>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.ModifyProduct();
+            await consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());

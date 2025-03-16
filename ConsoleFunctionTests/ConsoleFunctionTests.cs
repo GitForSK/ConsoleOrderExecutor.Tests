@@ -21,7 +21,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             _productService = A.Fake<IProductService>();
         }
         [Fact]
-        public void ConsoleFunctions_CreateNewOrder_OrderCreated()
+        public async Task ConsoleFunctions_CreateNewOrder_OrderCreated()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -51,14 +51,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.CreateOrder(A<CreateOrder>.Ignored)).Returns(true);
 
             //Act
-            consoleFunctions.CreateNewOrder();
+            await consoleFunctions.CreateNewOrder();
 
             //Assert
             Assert.DoesNotContain("Error:", strWriter.ToString());
             Assert.Contains("Order created.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_CreateNewOrder_OrderCreationFailed()
+        public async Task ConsoleFunctions_CreateNewOrder_OrderCreationFailed()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -88,14 +88,14 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.CreateOrder(A<CreateOrder>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.CreateNewOrder();
+            await consoleFunctions.CreateNewOrder();
 
             //Assert
             Assert.DoesNotContain("Error:", strWriter.ToString());
             Assert.Contains("Failed to create order.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_CreateNewOrder_ProductNameIsNull()
+        public async Task ConsoleFunctions_CreateNewOrder_ProductNameIsNull()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -124,7 +124,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _consoleUtils.GetParameter("Please write product price.", A<Predicate<string?>>.Ignored, out priceOut)).Returns(false);
 
             //Act
-            consoleFunctions.CreateNewOrder();
+            await consoleFunctions.CreateNewOrder();
 
             //Assert
             A.CallTo(() => _orderService.CreateOrder(A<CreateOrder>.Ignored)).MustNotHaveHappened();
@@ -132,7 +132,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.DoesNotContain("Product added.", strWriter.ToString());
         }
         [Fact]
-        public void ConsoleFunctions_CreateNewOrder_ProductCreationFailed()
+        public async Task ConsoleFunctions_CreateNewOrder_ProductCreationFailed()
         {
             //Arrange
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
@@ -162,7 +162,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.CreateProduct(A<CreateProduct>.Ignored)).Returns(false);
 
             //Act
-            consoleFunctions.CreateNewOrder();
+            await consoleFunctions.CreateNewOrder();
 
             //Assert
             A.CallTo(() => _orderService.CreateOrder(A<CreateOrder>.Ignored)).MustNotHaveHappened();

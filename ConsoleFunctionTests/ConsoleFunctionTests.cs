@@ -620,5 +620,132 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             Assert.Contains($"Error: Could not change order status with id {orderIdOut}.", strWriter.ToString());
             Assert.DoesNotContain($"Order status with id {orderIdOut} has been changed to W magazynie.", strWriter.ToString());
         }
+        [Fact]
+        public void ConsoleFunctions_ModifyProduct_SuccessfullyChanged_WriteSuccessMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? productIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the product that you want to modify.", A<Predicate<string?>>.Ignored, out productIdOut)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(true);
+            var productInfo = new GetProductInfo
+            {
+                Name = "name",
+                Ean = "1233"
+            };
+            A.CallTo(() => _productService.GetProductInfo(A<int>.Ignored)).Returns(productInfo);
+            string? newName = "newName";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product name or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newName)).Returns(false);
+            string? newEan = "1244";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product ean or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newEan)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(newEan)).Returns(false);
+            A.CallTo(() => _productService.ModifyProduct(A<ModifyProduct>.Ignored)).Returns(true);
+
+            //Act
+            consoleFunctions.ModifyProduct();
+
+            //Assert
+            Assert.Contains($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
+            Assert.DoesNotContain("Error:", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ModifyProduct_ProductDoNotExist_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? productIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the product that you want to modify.", A<Predicate<string?>>.Ignored, out productIdOut)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(false);
+
+            //Act
+            consoleFunctions.ModifyProduct();
+
+            //Assert
+            Assert.Contains($"Error: The product with id {productIdOut} do not exists.", strWriter.ToString());
+            Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ModifyProduct_CouldNotFindProductInfo_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? productIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the product that you want to modify.", A<Predicate<string?>>.Ignored, out productIdOut)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(true);
+            GetProductInfo? productInfo = null;
+            A.CallTo(() => _productService.GetProductInfo(A<int>.Ignored)).Returns(productInfo);
+
+            //Act
+            consoleFunctions.ModifyProduct();
+
+            //Assert
+            Assert.Contains("Error: Could not find product information form database.", strWriter.ToString());
+            Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ModifyProduct_NewEanAlreadyExist_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? productIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the product that you want to modify.", A<Predicate<string?>>.Ignored, out productIdOut)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(true);
+            var productInfo = new GetProductInfo
+            {
+                Name = "name",
+                Ean = "1233"
+            };
+            A.CallTo(() => _productService.GetProductInfo(A<int>.Ignored)).Returns(productInfo);
+            string? newName = "newName";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product name or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newName)).Returns(false);
+            string? newEan = "1244";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product ean or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newEan)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(newEan)).Returns(true);
+
+            //Act
+            consoleFunctions.ModifyProduct();
+
+            //Assert
+            Assert.Contains("Error: Product with this ean already exist.", strWriter.ToString());
+            Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
+        }
+        [Fact]
+        public void ConsoleFunctions_ModifyProduct_FailsToChange_WriteErrorMessage()
+        {
+            //Arrange
+            ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
+            var strWriter = new StringWriter();
+            Console.SetOut(strWriter);
+            string? productIdOut = "1";
+            A.CallTo(() => _consoleUtils.GetParameter("Please write the id of the product that you want to modify.", A<Predicate<string?>>.Ignored, out productIdOut)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(A<int>.Ignored)).Returns(true);
+            var productInfo = new GetProductInfo
+            {
+                Name = "name",
+                Ean = "1233"
+            };
+            A.CallTo(() => _productService.GetProductInfo(A<int>.Ignored)).Returns(productInfo);
+            string? newName = "newName";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product name or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newName)).Returns(false);
+            string? newEan = "1244";
+            A.CallTo(() => _consoleUtils.GetParameter("Pass new product ean or nothing if you do not want to change it.", A<Predicate<string?>>.Ignored, out newEan)).Returns(false);
+            A.CallTo(() => _productService.ProductExist(newEan)).Returns(false);
+            A.CallTo(() => _productService.ModifyProduct(A<ModifyProduct>.Ignored)).Returns(false);
+
+            //Act
+            consoleFunctions.ModifyProduct();
+
+            //Assert
+            Assert.DoesNotContain($"Successfully changed the product with id {productIdOut}.", strWriter.ToString());
+            Assert.Contains("Error: Could not change product.", strWriter.ToString());
+        }
     }
 }

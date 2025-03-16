@@ -176,7 +176,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             ConsoleFunctions consoleFunctions = new(_consoleUtils, _orderService, _productService);
             var strWriter = new StringWriter();
             Console.SetOut(strWriter);
-            var products = new List<GetProduct> { 
+            var products = new List<GetProduct> {
                 new()
                 {
                     Id = 1,
@@ -512,7 +512,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetPaymentOptionId("Gotówka przy odbiorze")).Returns(0);
 
             //Act
-            await  consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Could not find payment status with the name Gotówka przy odbiorze", strWriter.ToString());
@@ -561,7 +561,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetOrderStatusId(A<int>.Ignored)).Returns(2);
 
             //Act
-            await  consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Cannot change given order status, because the order status is not Nowe.", strWriter.ToString());
@@ -587,7 +587,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetStatusId("W magazynie")).Returns(0);
 
             //Act
-            await  consoleFunctions.PassOrderToWarehouse();
+            await consoleFunctions.PassOrderToWarehouse();
 
             //Assert
             Assert.Contains("Error: Could not find status with the name W magazynie", strWriter.ToString());
@@ -711,7 +711,7 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _productService.ProductExist(newEan)).Returns(true);
 
             //Act
-            await  consoleFunctions.ModifyProduct();
+            await consoleFunctions.ModifyProduct();
 
             //Assert
             Assert.Contains("Error: Product with this ean already exist.", strWriter.ToString());

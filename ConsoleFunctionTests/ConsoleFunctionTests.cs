@@ -268,10 +268,9 @@ namespace ConsoleOrderExecutor.Tests.ConsoleFunctionTests
             A.CallTo(() => _orderService.GetOrders()).Returns(orders);
             var order = orders[0];
             var consoleOrderResult =
-                $"id: {order.Id} value: {order.OrderValue} PLN status: {order.StatusName} payment option: {order.PaymentOption}" + Environment.NewLine +
-                $"type: {order.OrderType} address: {order.DeliveryAddress}" + Environment.NewLine +
-                "Products:";
-            var prod = order.Products.Select(x => $"id: {x.Id} ean: {x.Ean} name: {x.Name} price: {x.Price}");
+                $"Order id: {order.Id}\r\nValue: {order.OrderValue} PLN; Status: {order.StatusName}; Payment option: {order.PaymentOption};\r\n"
+                + $"Type: {order.OrderType}; Address: {order.DeliveryAddress};\r\nProducts:";
+            var prod = order.Products.Select(x => $"\tId: {x.Id} Ean: {x.Ean} Name: {x.Name} Price: {x.Price}");
             var consoleProdResult = String.Join("\n", prod);
 
             //Act
